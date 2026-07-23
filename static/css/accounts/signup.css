@@ -1,0 +1,44 @@
+/*.pwd_ok,
+.pwd_no {
+    position: absolute;
+    left: 470px;
+    width: 250px;
+}
+.id_ok,
+.id_already {
+    position: absolute;
+    left: 600px;
+    width: 250px;
+}
+.id_ok, .pwd_ok {
+    color: #6A82FB;
+    display: none;
+}
+
+.id_already, .pwd_no {
+    color: red;
+    display: none;
+}*/
+/* 아이디 중복 확인 메시지 */
+.id_ok,
+.id_already,
+
+/* 비밀번호 일치 확인 메시지 */
+.pwd_ok,
+.pwd_no {
+    display: none;
+    margin-top: 5px;
+    font-size: 0.875rem;
+}
+
+/* 사용 가능한 아이디 / 비밀번호 일치 */
+.id_ok,
+.pwd_ok {
+    color: #198754;
+}
+
+/* 중복 아이디 / 비밀번호 불일치 */
+.id_already,
+.pwd_no {
+    color: #dc3545;
+}

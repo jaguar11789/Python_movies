@@ -1,30 +1,50 @@
-{% extends 'frame.html' %}
+{% extends 'accounts_frame.html' %}
+
 {% block content %}
-<div class="container mt-3">
-    <form method="post" action="{% url 'accounts:login' %}">
-        {% csrf_token %}
-        {% if form.errors %}
-        <div class="alert alert-danger">
-            {% for field in form %}
-                {% if field.errors %}
-                    <strong>{{ field.label }}</strong>
-                    {{ field.errors }}
-                {% endif %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-                <strong>{{ error }}</strong>
-            {% endfor %}
+
+<div class="container min-vh-100 d-flex align-items-center justify-content-center">
+    <div class="w-100" style="max-width: 480px;">
+        <!-- 로고 -->
+        <div class="text-center mb-4">
+            <a href="{% url 'movies:index' %}" class="text-decoration-none text-dark">
+                <h1 class="fw-bold mb-0">MOVIE SITE</h1>
+            </a>
         </div>
-        {% endif %}
-        <div class="mb-3">
-            <label for="username">사용자</label>
-            <input type="text" class="form-control" name="username" id="username">
+
+        <!-- 로그인 카드 -->
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+                <!-- 제목 -->
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold">로그인</h2>
+                    <p class="text-muted mb-0">계정에 로그인해 주세요.</p>
+                </div>
+                <!-- 로그인 폼 -->
+                <form method="post" action="{% url 'accounts:login' %}">
+                    {% csrf_token %}
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        아이디 또는 비밀번호를 확인해 주세요.
+                    </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">아이디</label>
+                        <input type="text" class="form-control form-control-lg" name="username" id="username" placeholder="아이디를 입력하세요." required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control form-control-lg" name="password" id="password" placeholder="비밀번호를 입력하세요." required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">로그인</button>
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <span class="text-muted">아직 회원이 아니신가요?</span>
+                    <a href="{% url 'accounts:signup' %}" class="text-decoration-none fw-bold ms-1">회원가입</a>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="username">비밀번호</label>
-            <input type="password" class="form-control" name="password" id="password">
-        </div>
-        <button type="submit" class="btn btn-warning">로그인</button>
-    </form>
+    </div>
 </div>
 {% endblock %}
