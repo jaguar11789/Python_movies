@@ -1,0 +1,166 @@
+{% extends 'frame.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5">
+
+<!-- 페이지 제목 -->
+<div class="text-center mb-5">
+    <h2 class="fw-bold">마이페이지</h2>
+    <p class="text-muted mb-0">
+        회원님의 계정 정보를 확인할 수 있습니다.
+    </p>
+</div>
+
+
+<!-- 계정 정보 -->
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-dark text-white py-3">
+        <h5 class="mb-0">계정 정보</h5>
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                아이디
+            </div>
+            <div class="col p-3">
+                {{ user.username }}
+            </div>
+        </div>
+
+        <div class="row m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                이메일
+            </div>
+            <div class="col p-3">
+                {{ user.email }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 프로필 정보 -->
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-dark text-white py-3">
+        <h5 class="mb-0">프로필 정보</h5>
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                이름
+            </div>
+            <div class="col p-3">
+                {{ profile.name }}
+            </div>
+        </div>
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                성별
+            </div>
+            <div class="col p-3">
+                {% if profile.gender == 'm' %}
+                    남성
+                {% elif profile.gender == 'f' %}
+                    여성
+                {% else %}
+                    -
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                생년월일
+            </div>
+            <div class="col p-3">
+                {{ profile.birth_date }}
+            </div>
+        </div>
+
+        <div class="row m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                전화번호
+            </div>
+            <div class="col p-3">
+                {{ profile.telnum }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 주소 정보 -->
+<div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-header bg-dark text-white py-3">
+        <h5 class="mb-0">주소</h5>
+    </div>
+
+    <div class="card-body p-0">
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                우편번호
+            </div>
+            <div class="col p-3">
+                {{ profile.zipcode }}
+            </div>
+        </div>
+
+        <div class="row border-bottom m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                기본주소
+            </div>
+            <div class="col p-3">
+                {{ profile.base_addr }}
+            </div>
+        </div>
+
+        <div class="row m-0">
+            <div class="col-4 col-md-3 bg-light fw-bold p-3">
+                상세주소
+            </div>
+            <div class="col p-3">
+                {{ profile.dtl_addr }}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- 버튼 -->
+<div class="d-flex gap-2 mb-4">
+
+    <button type="button" class="btn btn-primary flex-fill">
+        회원정보 수정
+    </button>
+
+    <button type="button" class="btn btn-secondary flex-fill">
+        비밀번호 변경
+    </button>
+
+</div>
+
+
+<!-- 회원 탈퇴 -->
+<div class="text-center">
+    <a href="#" class="text-danger text-decoration-none">
+        회원 탈퇴
+    </a>
+</div>
+
+</div>
+
+{% endblock %}

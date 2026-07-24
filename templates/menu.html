@@ -1,49 +1,47 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm">
+    <div class="container">
+    <!-- 로고 -->
+    <a class="navbar-brand fw-bold fs-4" href="{% url 'movies:index' %}">LOGO</a>
+    <!-- 모바일 메뉴 버튼 -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="메뉴 열기">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-        <!-- 로고 -->
-        <a class="navbar-brand" href="#">Navbar</a>
-
-        <!-- 모바일 메뉴 버튼 -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- 왼쪽 메뉴 -->
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- 왼쪽 메뉴 -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+            <li class="nav-item">
+                <a class="nav-link" href="#">영화</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">인기 영화</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">리뷰</a>
+            </li>
+        </ul>
+        <!-- 오른쪽 사용자 메뉴 -->
+        <ul class="navbar-nav mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+                <!-- 마이페이지 -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'movies:index' %}">Home</a>
+                    <a class="nav-link" href="{% url 'accounts:mypage' %}"><strong>{{ user.username }}</strong>님</a>
                 </li>
+                <!-- 로그아웃 -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">메뉴1</a>
+                    <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
                 </li>
+            {% else %}
+                <!-- 로그인 -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">메뉴2</a>
+                    <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
                 </li>
+                <!-- 회원가입 -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">메뉴3</a>
+                    <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
                 </li>
-            </ul>
-            <!-- 오른쪽 로그인 / 회원가입 -->
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                {% if user.is_authenticated %}
-                    <!-- 로그인 상태 -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">{{ user.username }}님 환영합니다.</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:logout' %}">로그아웃</a>
-                    </li>
-                {% else %}
-                    <!-- 로그아웃 상태 -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">로그인</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:signup' %}">회원가입</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+            {% endif %}
+        </ul>
     </div>
+</div>
 </nav>

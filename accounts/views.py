@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth import logout
@@ -56,3 +55,11 @@ def check_username(request):
     exists = User.objects.filter(username=username).exists()
 
     return JsonResponse({'exists': exists})
+
+def mypage(request):
+
+
+    profile = request.user.profile
+    context = {'profile': profile}
+
+    return render(request, 'accounts/mypage.html', context)
