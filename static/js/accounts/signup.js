@@ -18,6 +18,51 @@ function addr_search() {
     }).open();
 }
 
+$('#userId').on('blur', function () {
+
+    const idPattern = /^[a-zA-Z0-9_-]{8,15}$/;
+
+    const username = $(this).val().trim();
+
+    if (username === '') {
+        // 아무것도 입력하지 않은 경우
+        return;
+
+    } else if ((username.length < 8 || username.length > 15) || !idPattern.test(username)) {
+        alert('아이디는 8~15자의 영문, 숫자, -, _만 사용할 수 있습니다.');
+
+        $(this).val('');
+        $('#id_ok').hide();
+        $('#id_already').hide();
+    } else {
+        // 아이디가 8~15자인 경우
+        // 여기서 AJAX 중복 확인
+        $.ajax({
+            url: '/accounts/check-username/',
+            type: 'GET',
+            data: {
+                username: username
+            },
+
+            success: function (data) {
+
+                if (data.exists) {
+                    $('#id_ok').hide();
+                    $('#id_already').show();
+
+                } else {
+                    $('#id_ok').show();
+                    $('#id_already').hide();
+                }
+            },
+
+            error: function () {
+                console.log('아이디 중복 확인 요청 실패');
+            }
+        });
+    }
+});
+
 $(function () {
 
     $('#userPwdCheck').blur(function () {
