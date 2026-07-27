@@ -96,3 +96,50 @@ $(function () {
         }
     });
 });
+
+const currentPassword = document.querySelector('#current_password');
+const passwordError = document.querySelector('#passwordError');
+
+if (currentPassword && passwordError) {
+    currentPassword.addEventListener('input', function () {
+        passwordError.style.display = 'none';
+    });
+}
+
+function accountDelete() {
+    const withdrawReason = document.getElementById('withdrawReason').value;
+
+    if (withdrawReason === '') {
+        alert('탈퇴 사유를 선택해주세요.');
+
+        return;
+    }
+    if (!confirm('정말 회원 탈퇴를 하시겠습니까?')) {
+
+        return;
+    }
+    fetch(accountDeleteUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            reason: withdrawReason
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            location.href = mainUrl;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+        alert('회원 탈퇴 중 오류가 발생했습니다.')
+        location.href = mainUrl;
+    });
+}

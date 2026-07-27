@@ -99,7 +99,6 @@
     </div>
 </div>
 
-
 <!-- 주소 정보 -->
 <div class="card shadow-sm border-0 mb-4">
 
@@ -143,24 +142,58 @@
 <!-- 버튼 -->
 <div class="d-flex gap-2 mb-4">
 
-    <button type="button" class="btn btn-primary flex-fill">
+    <button type="button" class="btn btn-primary flex-fill" onclick="location.href='{% url 'accounts:profile_update' %}'">
         회원정보 수정
     </button>
 
-    <button type="button" class="btn btn-secondary flex-fill">
-        비밀번호 변경
+    <button type="button" class="btn btn-secondary flex-fill" onclick="location.href='{% url 'accounts:password_update' %}'">
+        비밀번호 수정
     </button>
 
 </div>
 
-
 <!-- 회원 탈퇴 -->
 <div class="text-center">
-    <a href="#" class="text-danger text-decoration-none">
-        회원 탈퇴
-    </a>
+    <a href="#" class="text-danger text-decoration-none" data-bs-toggle="modal" data-bs-target="#withdrawModal">회원 탈퇴</a>
+</div>
+
+
+<!-- 회원 탈퇴 Modal -->
+<div class="modal fade" id="withdrawModal" tabindex="-1" aria-labelledby="withdrawModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="withdrawModalLabel">회원 탈퇴</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <p class="mb-3">탈퇴하시는 이유를 알려주세요.</p>
+
+                <select id="withdrawReason" class="form-select">
+                    <option value="">탈퇴 사유를 선택해주세요.</option>
+                    <option value="서비스 이용 불편">서비스 이용이 불편해서</option>
+                    <option value="원하는 기능 부족">원하는 기능이 없어서</option>
+                    <option value="이용 빈도 낮음">자주 이용하지 않아서</option>
+                    <option value="개인정보 보호">개인정보 보호를 위해서</option>
+                    <option value="기타">기타</option>
+                </select>
+                <div id="withdrawError" class="text-danger mt-2"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+
+                <button type="button" class="btn btn-danger" onclick="accountDelete()">회원 탈퇴</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 </div>
-
+<script>
+    const accountDeleteUrl = "{% url 'accounts:accounts_delete' %}";
+    const mainUrl = "{% url 'movies:index' %}";
+    const csrfToken = "{{ csrf_token }}";
+</script>
+<script src="{% static 'js/accounts/accounts.js' %}"></script>
 {% endblock %}
