@@ -1,4 +1,106 @@
 {% extends 'frame.html' %}
+{% load static %}
+
 {% block content %}
 
+<!-- =========================
+     메인 Hero 영역
+========================= -->
+
+{% if movies %}
+
+<div class="container-fluid px-0">
+{% with movie=movies.0 %}
+<div class="position-relative bg-dark text-white overflow-hidden">
+    {% if movie.backdrop_path %}
+        <img src="https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}" class="w-100" style="height: 550px; object-fit: cover; opacity: 0.45;" alt="{{ movie.title }}">
+    {% endif %}
+    <div class="position-absolute top-50 start-0 translate-middle-y w-100">
+        <div class="container">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold">{{ movie.title }}</h1>
+                <p class="fs-5 mb-2">⭐ {{ movie.vote_average|floatformat:1 }}</p>
+                <p class="lead">{{ movie.overview|truncatechars:180 }}</p>
+                <button type="button" class="btn btn-light" onclick="location.href='{% url 'movies:detail' movie.id %}'">영화 상세보기</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endwith %}
+</div>
+{% endif %}
+
+<!-- =========================
+     영화 검색 영역
+========================= -->
+
+<div class="container py-5">
+<div class="text-center mb-4">
+    <h2 class="fw-bold">영화를 찾아보세요</h2>
+    <p class="text-muted">보고 싶은 영화를 검색하고 다양한 영화 정보를 확인해보세요.</p>
+</div>
+<div class="row justify-content-center mb-5">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="input-group input-group-lg">
+            <input type="text" class="form-control" placeholder="영화 제목을 입력하세요.">
+            <button type="button" class="btn btn-dark">검색</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- =========================
+     인기 영화
+========================= -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+        <h2 class="fw-bold mb-1">🔥 인기 영화</h2>
+        <p class="text-muted mb-0">지금 많은 사람들이 관심을 가지고 있는 영화입니다.</p>
+    </div>
+    <button type="button" class="btn btn-outline-dark" onclick="location.href='{% url 'movies:popular' %}'">전체보기</button>
+</div>
+<div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4">
+    {% for movie in movies|slice:":5" %}
+    <div class="col">
+        <a href="{% url 'movies:detail' movie.id %}" class="text-decoration-none">
+            <div class="card h-100 border-0 shadow-sm">
+                {% if movie.poster_path %}
+                    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top" alt="{{ movie.title }}">
+                {% else %}
+                    <div class="bg-light d-flex justify-content-center align-items-center" style="height: 350px;">
+                        <span class="text-muted">포스터 없음</span>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">
+                        {{ movie.title }}
+                    </h5>
+                    <p class="card-text text-muted mb-0">
+                        ⭐ {{ movie.vote_average|floatformat:1 }}
+                    </p>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<!-- =========================
+     서비스 소개 영역
+========================= -->
+<div class="row align-items-center bg-light rounded-3 p-5 my-5">
+    <div class="col-md-8">
+        <h3 class="fw-bold">
+            좋아하는 영화를 발견하고 리뷰를 남겨보세요.
+        </h3>
+        <p class="text-muted mb-0">
+            다양한 영화 정보를 확인하고,
+            내가 본 영화에 대한 생각을 다른 사용자들과 공유해보세요.
+        </p>
+    </div>
+    <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <button type="button" class="btn btn-dark btn-lg">영화 둘러보기</button>
+    </div>
+</div>
+</div>
 {% endblock %}

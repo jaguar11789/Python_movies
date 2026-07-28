@@ -1,0 +1,81 @@
+{% extends 'frame.html' %}
+{% block content %}
+<div class="container py-5">
+<!-- 영화 상세 정보 -->
+<div class="row g-5">
+    <!-- 포스터 -->
+    <div class="col-md-4">
+        {% if movie.poster_path %}
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="img-fluid rounded shadow" alt="{{ movie.title }}">
+        {% endif %}
+    </div>
+    <!-- 영화 정보 -->
+    <div class="col-md-8">
+        <h1 class="fw-bold mb-3">{{ movie.title }}</h1>
+        {% if movie.original_title %}
+            <p class="text-muted mb-4">{{ movie.original_title }}</p>
+        {% endif %}
+        <!-- 평점 -->
+        <div class="mb-4">
+            <span class="badge text-bg-warning fs-6">⭐ {{ movie.vote_average|floatformat:1 }}</span>
+        </div>
+        <!-- 기본 정보 -->
+        <div class="mb-4">
+            <p class="mb-2">
+                <strong>개봉일</strong>
+                {{ movie.release_date }}
+            </p>
+            <p class="mb-2">
+                <strong>러닝타임</strong>
+                {{ movie.runtime }}분
+            </p>
+            <p class="mb-2">
+                <strong>장르</strong>
+                {% for genre in movie.genres %}
+                    <span class="badge text-bg-secondary">{{ genre.name }}</span>
+                {% endfor %}
+            </p>
+        </div>
+        <hr>
+        <!-- 줄거리 -->
+        <div class="mt-4">
+            <h4 class="fw-bold mb-3">줄거리</h4>
+            {% if movie.overview %}
+                <p class="text-muted lh-lg">{{ movie.overview }}</p>
+            {% else %}
+                <p class="text-muted">등록된 줄거리 정보가 없습니다.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<!-- 주요 출연진 -->
+<section class="mt-5 pt-5 border-top">
+    <h3 class="fw-bold mb-4">주요 출연진</h3>
+    <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 g-4">
+        {% for actor in cast|slice:":6" %}
+            <div class="col">
+                <div class="card h-100 border-0 shadow-sm">
+                    <!-- 배우 프로필 -->
+                    {% if actor.profile_path %}
+                        <img src="https://image.tmdb.org/t/p/w185{{ actor.profile_path }}" class="card-img-top" alt="{{ actor.name }}">
+                    {% else %}
+                        <div class="bg-light d-flex justify-content-center align-items-center" style="height: 250px;">
+                            <span class="text-muted">사진 없음</span>
+                        </div>
+                    {% endif %}
+                    <!-- 배우 정보 -->
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-1">{{ actor.name }}</h6>
+                        <p class="text-muted small mb-0">{{ actor.character }}</p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="text-muted">출연진 정보가 없습니다.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+</div>
+{% endblock %}
