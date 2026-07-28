@@ -73,3 +73,39 @@ def popular(request):
         'page_range'  :page_range,
     }
     return render(request, 'movies/popular.html', context)
+
+def movie_list(request):
+
+    genre_id = request.GET.get('genre')
+    page = int(request.GET.get('page', 1))
+
+    url = 'https://api.themoviedb.org/3/discover/movie'
+
+    params = {
+        'api_key': settings.TMDB_API_KEY,
+        'language': 'ko-KR',
+        'page': page,
+    }
+    if genre_id:
+        params['with_genres'] = genre_id
+
+    response = requests.get(url, params=params)
+
+    data = response.json()
+    total_pages = data['total_pages']
+
+    page_group = (page - 1) // 10
+
+    start_page = page_group * 10 + 1
+    end_page = min(start_page + 9, total_pages)
+
+    page_range = range(start_page, end_page + 1)
+
+    context = {
+        'movies': data['results'],
+        'current_page': data['page'],
+        'total_pages': data['total_pages'],
+        'selected_genre': genre_id,
+        'page_range': page_range,
+    }
+    return render(request, 'movies/movie_list.html', context)
